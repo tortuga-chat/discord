@@ -1,0 +1,7 @@
+#splashArt: ""
+
+discord:
+  token: ${DISCORD_TOKEN}
+
+#command:
+#  prefix: ""
