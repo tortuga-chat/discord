@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.clients.*;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -36,7 +37,9 @@ public class MusicService {
 
     static {
         PLAYER = new DefaultAudioPlayerManager();
-        PLAYER.registerSourceManager(new dev.lavalink.youtube.YoutubeAudioSourceManager());
+        PLAYER.registerSourceManager(new dev.lavalink.youtube.YoutubeAudioSourceManager(
+                new WebWithThumbnail(), new MusicWithThumbnail(), new TvHtml5EmbeddedWithThumbnail(),
+                new MWebWithThumbnail(), new WebEmbeddedWithThumbnail()));
         //noinspection deprecation - we're actually excluding the deprecated class here
         AudioSourceManagers.registerRemoteSources(PLAYER, YoutubeAudioSourceManager.class, TwitchStreamAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(PLAYER);
