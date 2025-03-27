@@ -38,10 +38,6 @@ public class JellyfinBot extends DiscordBot {
         return getUpdatesChannel().sendMessage(MessageCreateData.fromEmbeds(embed.build())).complete();
     }
 
-    public Message getUpdateMessage(long id) {
-        return getUpdatesChannel().retrieveMessageById(id).complete();
-    }
-
     public TextChannel getUpdatesChannel() {
         return getJda().getTextChannelById(CONFIG.getChannelId());
     }
