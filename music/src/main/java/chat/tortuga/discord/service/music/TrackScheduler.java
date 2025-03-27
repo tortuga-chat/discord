@@ -122,7 +122,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        log.info("[{}] Playing {}", guild.getName(), track.getInfo().title);
+        log.info("[{}] Playing {} from {}", guild.getName(), track.getInfo().title, track.getSourceManager().getSourceName());
         update(guild, this);
         endedAt = null;
     }

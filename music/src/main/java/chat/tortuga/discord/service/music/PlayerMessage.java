@@ -39,6 +39,7 @@ public class PlayerMessage {
     private static final String EMOJI_LOOP = "🔁";
     private static final String EMOJI_SONG = "🎶";
     private static final String EMOJI_LIST = "📋";
+    private static final String EMOJI_LIVE = "🔴";
     private static final String[] EMOJIS_DESERT = {"🌵", "🏝️", "🏜️"};
     private static final String EMOJI_TORTUGA = "<:tortuga:1350930965714698311>";
     private static final List<String> EMOJIS_AUDIO_SOURCES = List.of(
@@ -180,6 +181,9 @@ public class PlayerMessage {
     }
 
     private static String getDurationFormatted(long millis) {
+        if (Long.MAX_VALUE == millis)
+            return String.format("%s Live", EMOJI_LIVE);
+
         Duration duration = Duration.ofMillis(millis);
         long hours = duration.toHours();
         long minutes = duration.toMinutesPart();
