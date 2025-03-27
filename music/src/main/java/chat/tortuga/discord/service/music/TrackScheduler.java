@@ -56,7 +56,9 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void add(Member requester, List<AudioTrack> tracks) {
         playlist.addAll(tracks.stream().peek(t -> t.setUserData(requester)).toList());
-        if (!hasCurrentTrack())
+        if (hasCurrentTrack())
+            update(guild, this);
+        else
             nextTrack();
     }
 
