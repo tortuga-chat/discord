@@ -16,10 +16,12 @@ public class DefaultAudioLoadResultHandler implements AudioLoadResultHandler {
 
     private final GuildMusicManager musicManager;
     private final Member member;
+    private final String guild;
 
     public DefaultAudioLoadResultHandler(GuildMusicManager musicManager, Member member) {
         this.musicManager = musicManager;
         this.member = member;
+        this.guild = member.getGuild().getName();
     }
 
     @Override
@@ -31,7 +33,7 @@ public class DefaultAudioLoadResultHandler implements AudioLoadResultHandler {
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         checkIfConnected();
-        log.info("Loaded playlist {}", playlist.getName());
+        log.info("[{}] Loaded playlist {}", guild, playlist.getName());
         if (playlist.isSearchResult()) {
             musicManager.getScheduler().add(member, playlist.getTracks().getFirst());
             return;
@@ -41,12 +43,12 @@ public class DefaultAudioLoadResultHandler implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        log.info("nothing found...");
+        log.info("[{}] Nothing found...", guild);
     }
 
     @Override
     public void loadFailed(FriendlyException e) {
-        log.info("load failed", e);
+        log.info("[{}] Load failed", guild, e);
     }
 
     private void checkIfConnected() {

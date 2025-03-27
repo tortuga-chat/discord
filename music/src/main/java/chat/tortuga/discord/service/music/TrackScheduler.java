@@ -63,7 +63,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void previousTrack() {
-        log.info("Previous track: {}", previousTrack);
+        log.info("[{}] Previous track: {}", guild.getName(), previousTrack);
         if (hasPreviousTrack())
             player.startTrack(previousTrack.makeClone(), false);
         else if (hasCurrentTrack())
@@ -82,13 +82,13 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void toggleLooping() {
         looping = !looping;
-        log.info("Looping toggled to '{}' for {}", looping, guild);
+        log.info("[{}] Looping toggled to '{}'", guild.getName(), looping);
         update(guild, this);
     }
 
     public void toggleLoopingPlaylist() {
         loopingPlaylist = !loopingPlaylist;
-        log.info("Looping playlist toggled to '{}' for {}", loopingPlaylist, guild);
+        log.info("[{}] Looping playlist toggled to '{}'", guild.getName(), loopingPlaylist);
         update(guild, this);
     }
 
@@ -122,7 +122,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        log.info("Playing {}", track.getInfo().title);
+        log.info("[{}] Playing {}", guild.getName(), track.getInfo().title);
         update(guild, this);
         endedAt = null;
     }
@@ -151,19 +151,19 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onPlayerPause(AudioPlayer player) {
-        log.info("Player paused");
+        log.info("[{}] Player paused", guild.getName());
         update(guild, this);
     }
 
     @Override
     public void onPlayerResume(AudioPlayer player) {
-        log.info("Player resumed");
+        log.info("[{}] Player resumed", guild.getName());
         update(guild, this);
     }
 
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        log.error("Error playing track", exception);
+        log.error("[{}] Error playing track", guild.getName(), exception);
     }
 
 }

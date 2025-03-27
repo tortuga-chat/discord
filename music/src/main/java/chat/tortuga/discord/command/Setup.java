@@ -37,7 +37,7 @@ public class Setup extends TortugaCommandHandler {
     }
 
     protected void success(TextChannel channel) {
-        log.info("Created voice channel");
+        log.info("[{}] Created voice channel", guild.getName());
         settings.setMusicChannelId(channel.getIdLong());
         GuildSettingsService.save(settings);
 
@@ -47,7 +47,7 @@ public class Setup extends TortugaCommandHandler {
     }
 
     protected void failed(Throwable err) {
-        log.error("Failed to create voice channel: {}", err.getMessage());
+        log.error("[{}] Failed to create voice channel: {}", guild.getName(), err.getMessage());
 
         event.getHook()
                 .editOriginal(MessageEditData.fromEmbeds(new EmbedBuilder().setTitle(err.getMessage()).build()))

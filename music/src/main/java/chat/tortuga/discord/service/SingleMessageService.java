@@ -74,23 +74,23 @@ public class SingleMessageService {
         if (message.getMessageId() == null)
             channel.sendMessage(message.get())
                     .queue(m -> {
-                        log.trace("Created player message for {}", guild);
+                        log.trace("[{}] Created player message", guild.getName());
                         message.setMessageId(m.getIdLong());
                         MESSAGES.put(guildId, message);
                     });
         else
             channel.editMessageById(message.getMessageId(), message.getEdit())
-                    .queue(m -> log.trace("Updated player message for {}", guild));
+                    .queue(m -> log.trace("[{}] Updated player message", guild.getName()));
 
         if (message.getPlaylistMessageId() == null)
             channel.sendMessage(message.getPlaylist())
                     .queue(m -> {
-                        log.trace("Created queue message for {}", guild);
+                        log.trace("[{}] Created queue message", guild.getName());
                         message.setPlaylistMessageId(m.getIdLong());
                     });
         else
             channel.editMessageById(message.getPlaylistMessageId(), message.getPlaylistEdit())
-                    .queue(m -> log.trace("Updated queue message for {}", guild));
+                    .queue(m -> log.trace("[{}] Updated queue message", guild.getName()));
     }
 
     public static void delete(Guild guild) {
@@ -100,9 +100,9 @@ public class SingleMessageService {
         final TextChannel channel = getMusicChannel(guild);
 
         channel.deleteMessageById(message.getMessageId())
-                .queue(s -> log.debug("Deleted player message for {}", guild));
+                .queue(s -> log.debug("[{}] Deleted player message", guild.getName()));
         channel.deleteMessageById(message.getPlaylistMessageId())
-                .queue(s -> log.debug("Deleted queue message for {}", guild));
+                .queue(s -> log.debug("[{}] Deleted queue message", guild.getName()));
     }
 
     public static boolean manages(Long messageId) {
@@ -120,12 +120,12 @@ public class SingleMessageService {
         channel.getHistoryFromBeginning(100).queue(s -> {
             if (s.size() > 1)
                 channel.deleteMessages(s.getRetrievedHistory()).queue(v -> {
-                    log.debug("Deleted all messages for {}#{}", guild.getName(), channel.getName());
+                    log.debug("[{}] Deleted all messages in {}", guild.getName(), channel.getName());
                     MESSAGES.remove(guild.getIdLong());
                 });
             else if (!s.isEmpty())
                 channel.deleteMessageById(s.getRetrievedHistory().getFirst().getIdLong()).queue(v -> {
-                    log.debug("Deleted message for {}#{}", guild.getName(), channel.getName());
+                    log.debug("[{}] Deleted message for {}", guild.getName(), channel.getName());
                     MESSAGES.remove(guild.getIdLong());
                 });
         });

@@ -33,7 +33,6 @@ public class PlayerMessage {
 
     private static final String EMOJI_PREV = "⏮";
     private static final String EMOJI_PAUSE = "⏸";
-    private static final String EMOJI_PLAY = "▶";
     private static final String EMOJI_SKIP = "⏭";
     private static final String EMOJI_STOP = "⏹";
     private static final String EMOJI_LOOP_ONCE = "🔂";
@@ -157,8 +156,7 @@ public class PlayerMessage {
     }
 
     public Button getPauseButton() {
-        return Button.of(scheduler.isPaused() ? SUCCESS : PRIMARY, BUTTON_PAUSE,
-                Emoji.fromUnicode(scheduler.isPaused() ? EMOJI_PLAY : EMOJI_PAUSE));
+        return Button.of(scheduler.isPaused() ? SUCCESS : PRIMARY, BUTTON_PAUSE, Emoji.fromUnicode(EMOJI_PAUSE));
     }
 
     public Button getSkipButton() {

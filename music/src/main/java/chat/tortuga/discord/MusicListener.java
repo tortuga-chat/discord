@@ -27,7 +27,7 @@ public class MusicListener extends EventListener {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (event.getAuthor().isBot() || !event.isFromGuild() || !GuildSettingsService.isChannelManaged(event.getChannel().getIdLong()))
+        if (event.getAuthor().isBot() || !event.isFromGuild() || GuildSettingsService.isChannelNotManaged(event.getChannel().getIdLong()))
             return;
 
         executor.execute(() -> {
@@ -45,13 +45,13 @@ public class MusicListener extends EventListener {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        if (!event.isFromGuild())
+        if (!event.isFromGuild() || event.getGuild() == null)
             return;
 
         executor.execute(() -> {
             boolean shouldAcknowledge = true;
             try {
-                log.info("Button pressed: {}", event.getComponentId());
+                log.info("[{}] Button pressed: {}", event.getGuild().getName(), event.getComponentId());
                 switch (event.getComponentId()) {
                     case PlayerMessage.BUTTON_PREV -> MusicService.previousTrack(event.getMember());
                     case PlayerMessage.BUTTON_PAUSE -> MusicService.pause(event.getMember());
@@ -60,7 +60,7 @@ public class MusicListener extends EventListener {
                     case PlayerMessage.BUTTON_LOOP -> MusicService.loop(event.getMember());
                     case PlayerMessage.BUTTON_LOOP_PLAYLIST -> MusicService.loopPlaylist(event.getMember());
                     default -> {
-                        log.warn("Button {} not handled...", event.getComponentId());
+                        log.warn("[{}] Button {} not handled...", event.getGuild().getName(), event.getComponentId());
                         shouldAcknowledge = false;
                     }
                 }
@@ -75,7 +75,7 @@ public class MusicListener extends EventListener {
                         try {
                             Thread.sleep(Duration.ofSeconds(2));
                         } catch (InterruptedException e) {
-                            log.error("Interrupted", e);
+                            log.error("Couldn't sleep", e);
                         } finally {
                             event.editButton(message.getButton(event.getComponentId()))
                                     .queue();
@@ -94,7 +94,7 @@ public class MusicListener extends EventListener {
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
         executor.execute(() -> {
-            if (!GuildSettingsService.isChannelManaged(event.getChannel().getIdLong()))
+            if (GuildSettingsService.isChannelNotManaged(event.getChannel().getIdLong()))
                 return;
             if (SingleMessageService.manages(event.getMessageIdLong()))
                 return;
@@ -110,7 +110,7 @@ public class MusicListener extends EventListener {
     }
 
     protected void handleException(Guild guild, Exception e) {
-        log.error("Error handling query", e);
+        log.error("[{}] Error handling query", guild.getName(), e);
         SingleMessageService.error(guild, e.getMessage());
     }
 

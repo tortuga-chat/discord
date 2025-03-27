@@ -43,10 +43,10 @@ public class GuildSettingsService {
         log.info("Removed guild preferences {}", guildSettings);
     }
 
-    public static boolean isChannelManaged(Long channelId) {
+    public static boolean isChannelNotManaged(Long channelId) {
         return dao.findAll().stream()
                 .map(GuildSettings::getMusicChannelId)
-                .anyMatch(s -> s.equals(channelId));
+                .noneMatch(s -> s.equals(channelId));
     }
 
 }

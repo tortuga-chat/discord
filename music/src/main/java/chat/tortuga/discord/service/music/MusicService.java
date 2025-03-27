@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.entities.channel.unions.AudioChannelUnion;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -59,7 +60,7 @@ public class MusicService {
         } catch (InterruptedException e) {
             log.error("Couldn't sleep", e);
         } finally {
-            log.info("{} in {}: {}", member.getEffectiveName(), guild, query);
+            log.info("[{}] {}: {}", guild.getName(), member.getEffectiveName(), query);
         }
         PLAYER.loadItemOrdered(musicManager, query, new DefaultAudioLoadResultHandler(musicManager, member));
     }
@@ -129,7 +130,9 @@ public class MusicService {
     public static void disconnectFromVoiceChannel(Guild guild) {
         final AudioManager audioManager = guild.getAudioManager();
         if (!audioManager.isConnected()) return;
-        log.info("Disconnecting from voice channel in {}", guild);
+        log.info("[{}] Disconnecting from {}", guild.getName(), Optional.ofNullable(audioManager.getConnectedChannel())
+                .map(Channel::getName)
+                .orElse("voice channel"));
         audioManager.closeAudioConnection();
     }
 
