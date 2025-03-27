@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 public class TorrentService {
@@ -20,9 +19,8 @@ public class TorrentService {
 
     public static Torrent getTorrentByMessage(long id) {
         log.info("Retrieving torrent with messageId {}", id);
-        return Optional.ofNullable(dao.find(String.format("/.[messageId='%d']", id)))
-                .map(List::getFirst)
-                .orElse(null);
+        List<Torrent> list = dao.find(String.format("/.[messageId='%d']", id));
+        return list.isEmpty() ? null : list.getFirst();
     }
 
     public static void registerTorrent(String id, long messageId) {
