@@ -20,6 +20,11 @@
             <name>Lavalink Repository</name>
             <url>https://maven.lavalink.dev/releases</url>
         </repository>
+        <repository>
+            <id>arbjergDev-snapshots</id>
+            <name>Lavalink Snapshot Repository</name>
+            <url>https://maven.lavalink.dev/snapshots</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -37,7 +42,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>v2</artifactId>
-            <version>1.11.5</version>
+            <version>1.12.0</version>
         </dependency>
         <!--database-->
         <dependency>
