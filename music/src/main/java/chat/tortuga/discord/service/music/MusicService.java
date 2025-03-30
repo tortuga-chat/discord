@@ -116,7 +116,7 @@ public class MusicService {
     }
 
     public static void leave(Member member) throws BotException {
-        requireSameVoiceChannel(member);
+        stop(member);
         disconnectFromVoiceChannel(member.getGuild());
     }
 
