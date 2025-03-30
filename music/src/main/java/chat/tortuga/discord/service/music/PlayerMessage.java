@@ -49,6 +49,8 @@ public class PlayerMessage {
             "<:bandcamp:1350929589744046081>",
             "<:vimeo:1350931273803108495>");
 
+    private static final int PLAYLIST_LIMIT = 20;
+
     private Long messageId;
     private Long playlistMessageId;
     private TrackScheduler scheduler;
@@ -127,10 +129,13 @@ public class PlayerMessage {
         long totalTime = scheduler.getCurrentTrack().getDuration();
         sb.append("0. ").append(scheduler.getCurrentTrack().getInfo().title);
 
-        for (int i = 0; i < scheduler.getPlaylist().size() && i < 25; i++) {
+        for (int i = 0; i < scheduler.getPlaylist().size() && i < PLAYLIST_LIMIT; i++) {
             AudioTrack track = scheduler.getPlaylist().get(i);
             sb.append("\n").append(i+1).append(". ").append(track.getInfo().title);
             totalTime += track.getDuration();
+        }
+        if (scheduler.getPlaylist().size() > PLAYLIST_LIMIT) {
+            sb.append("\n\nAnd **").append(scheduler.getPlaylist().size() - PLAYLIST_LIMIT).append("** more...");
         }
         return builder
                 .setDescription(sb.toString())
