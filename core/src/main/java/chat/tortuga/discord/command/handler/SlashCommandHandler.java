@@ -65,6 +65,10 @@ public abstract class SlashCommandHandler implements Consumer<SlashCommandIntera
 
     public SlashCommandData build() {
         Command command = getClass().getAnnotation(Command.class);
+        if (command == null) {
+            log.error("Command annotation not found in {}", getClass().getName());
+            return null;
+        }
         SlashCommandData data = Commands.slash(command.name(), command.description())
                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(command.permissions()))
                 .setNSFW(command.nsfw())

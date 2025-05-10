@@ -39,8 +39,10 @@ public class MusicService {
     static {
         PLAYER = new DefaultAudioPlayerManager();
         PLAYER.registerSourceManager(new dev.lavalink.youtube.YoutubeAudioSourceManager(
-                new WebWithThumbnail(), new MusicWithThumbnail(), new TvHtml5EmbeddedWithThumbnail(),
-                new MWebWithThumbnail(), new WebEmbeddedWithThumbnail()));
+//                new Tv(), new TvHtml5Embedded(),
+                new TvHtml5EmbeddedWithThumbnail(),
+                new MusicWithThumbnail(), new WebWithThumbnail(), new MWebWithThumbnail(), new WebEmbeddedWithThumbnail()
+        ));
         //noinspection deprecation - we're actually excluding the deprecated class here
         AudioSourceManagers.registerRemoteSources(PLAYER, YoutubeAudioSourceManager.class, TwitchStreamAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(PLAYER);

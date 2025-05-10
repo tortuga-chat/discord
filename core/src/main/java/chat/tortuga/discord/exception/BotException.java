@@ -6,12 +6,4 @@ public class BotException extends Exception {
         super(message);
     }
 
-    public BotException(Throwable cause) {
-        super(cause);
-    }
-
-    public BotException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

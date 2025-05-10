@@ -31,9 +31,6 @@ public class EventListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         CommandLoader.getHandlerForSlash(event.getName())
                         .ifPresent(h -> Objects.requireNonNull(getInstanceOf(h)).accept(event));
-//        executor.execute(() ->
-//                CommandLoader.getHandlerForSlash(event.getName())
-//                        .ifPresent(h -> Objects.requireNonNull(getInstanceOf(h)).accept(event)));
     }
 
     public void shutdown() {

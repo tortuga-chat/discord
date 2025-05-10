@@ -52,6 +52,8 @@ public class TaskLoader {
     }
 
     protected void scheduleTask(Task annotation, Runnable runnable, String name) {
+        if (annotation == null) return;
+
         final long delay = Long.parseLong(annotation.delay());
         final long period = Long.parseLong(annotation.period());
         final TimeUnit unit = TimeUnit.valueOf(annotation.unit());
@@ -63,7 +65,7 @@ public class TaskLoader {
     protected Set<Class<?>> getTypeTasks() {
         return REFLECTIONS.getTypesAnnotatedWith(Task.class)
                 .stream()
-                .filter(c -> isTaskEnabled(c.getName()) && c.isInstance(Runnable.class) && !Modifier.isAbstract(c.getModifiers()))
+                .filter(c -> isTaskEnabled(c.getName()))
                 .collect(Collectors.toSet());
     }
 

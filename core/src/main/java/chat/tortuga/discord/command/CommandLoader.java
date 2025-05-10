@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,7 @@ public class CommandLoader {
         REFLECTIONS.getTypesAnnotatedWith(Command.class).forEach(handler -> {
             var command = handler.getAnnotation(Command.class);
 
-            if (SlashCommandHandler.class.isAssignableFrom(handler)) {
+            if (SlashCommandHandler.class.isAssignableFrom(handler) && Objects.nonNull(command)) {
                 log.debug("Assigning {} to handle /{}", handler.getName(), command.name());
                 SLASH_HANDLERS.put(command.name(), handler.asSubclass(SlashCommandHandler.class));
             }
