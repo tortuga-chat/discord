@@ -38,11 +38,6 @@ public class GuildSettingsService {
         log.info("Saved guild preferences {}", guildSettings);
     }
 
-    public static void remove(GuildSettings guildSettings) {
-        dao.remove(guildSettings);
-        log.info("Removed guild preferences {}", guildSettings);
-    }
-
     public static boolean isChannelNotManaged(Long channelId) {
         return dao.findAll().stream()
                 .map(GuildSettings::getMusicChannelId)

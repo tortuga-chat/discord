@@ -40,14 +40,6 @@ public class SingleMessageService {
                 .build());
     }
 
-    public static void warn(Guild guild, String title, String description) {
-        temporary(guild, new EmbedBuilder()
-                .setTitle(title)
-                .setDescription(description)
-                .setColor(Color.yellow)
-                .build());
-    }
-
     public static void temporary(Guild guild, MessageEmbed... embeds) {
         getMusicChannel(guild)
                 .sendMessage(MessageCreateData.fromEmbeds(embeds))
