@@ -1,5 +1,6 @@
 package chat.tortuga.discord.task;
 
+import chat.tortuga.discord.config.ConfigLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -65,7 +66,7 @@ public class TaskLoader {
     protected Set<Class<?>> getTypeTasks() {
         return REFLECTIONS.getTypesAnnotatedWith(Task.class)
                 .stream()
-                .filter(c -> isTaskEnabled(c.getName()))
+                .filter(c -> isTaskEnabled(c.getSimpleName()))
                 .collect(Collectors.toSet());
     }
 
@@ -77,8 +78,7 @@ public class TaskLoader {
     }
 
     protected Boolean isTaskEnabled(String name) {
-        // TODO read config
-        return true;
+        return ConfigLoader.CORE.getTask() == null || !ConfigLoader.CORE.getTask().getDisabled().contains(name);
     }
 
     protected Runnable asRunnable(Class<?> type) {

@@ -12,8 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static chat.tortuga.discord.config.ConfigLoader.CORE;
-
 @Slf4j
 public class EventListener extends ListenerAdapter {
 
@@ -21,9 +19,6 @@ public class EventListener extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        if (CORE.getSplashArt() != null) {
-            log.info(CORE.getSplashArt());
-        }
         log.info("Bot is ready!");
     }
 

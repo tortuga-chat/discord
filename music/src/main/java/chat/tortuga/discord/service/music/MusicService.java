@@ -3,7 +3,6 @@ package chat.tortuga.discord.service.music;
 import chat.tortuga.discord.exception.BotException;
 import chat.tortuga.discord.exception.VoiceChannelRequiredException;
 import chat.tortuga.discord.service.music.handler.DefaultAudioLoadResultHandler;
-import chat.tortuga.discord.task.Task;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
@@ -21,8 +20,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class MusicService {
 
-    @SuppressWarnings("SpellCheckingInspection")
     private static final String YOUTUBE_QUERY = "ytsearch: ";
     private static final AudioPlayerManager PLAYER;
     private static final Map<Long, GuildMusicManager> MANAGERS = new ConcurrentHashMap<>();
@@ -138,16 +135,8 @@ public class MusicService {
         audioManager.closeAudioConnection();
     }
 
-    @Task(delay = "5", period = "5", unit = "MINUTES")
-    public static void disconnectOnIdle() {
-        MANAGERS.values().forEach(manager -> {
-            if (manager.getScheduler().hasCurrentTrack()) return;
-            if (!manager.getScheduler().isEmpty()) return;
-            if (manager.getPlayer().isPaused()) return;
-            if (manager.getScheduler().getEndedAt() != null &&
-                Instant.now().isBefore(manager.getScheduler().getEndedAt().plus(Duration.ofMinutes(5)))) return;
-            disconnectFromVoiceChannel(manager.getGuild());
-        });
+    public static Collection<GuildMusicManager> getManagers() {
+        return MANAGERS.values();
     }
 
     private static VoiceChannel retrieveMemberVoiceChannel(Member member) throws VoiceChannelRequiredException {

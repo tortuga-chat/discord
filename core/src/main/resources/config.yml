@@ -1,7 +1,13 @@
-#splashArt: ""
-
 discord:
   token: ${DISCORD_TOKEN}
 
 #command:
 #  prefix: ""
+#  disabled:
+#    - "ping"
+#    - "myCommand"
+
+#task:
+#  disabled:
+#    - "myFirstTask"
+#    - "MyOwnTask"

@@ -96,10 +96,6 @@ public class TrackScheduler extends AudioEventAdapter {
         return player.getPlayingTrack();
     }
 
-    public AudioTrack peekNextTrack () {
-        return playlist.peek();
-    }
-
     public boolean hasCurrentTrack() {
         return getCurrentTrack() != null;
     }
