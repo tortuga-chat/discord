@@ -5,7 +5,6 @@ import chat.tortuga.discord.config.Discord;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
@@ -34,8 +33,8 @@ public class JellyfinBot extends DiscordBot {
                 .disableCache(EMOJI, STICKER, SCHEDULED_EVENTS, VOICE_STATE));
     }
 
-    public Message sendUpdateMessage(EmbedBuilder embed) {
-        return getUpdatesChannel().sendMessage(MessageCreateData.fromEmbeds(embed.build())).complete();
+    public void sendUpdateMessage(EmbedBuilder embed) {
+        getUpdatesChannel().sendMessage(MessageCreateData.fromEmbeds(embed.build())).queue();
     }
 
     public TextChannel getUpdatesChannel() {

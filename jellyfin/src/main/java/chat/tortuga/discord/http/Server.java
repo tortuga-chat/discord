@@ -27,8 +27,4 @@ public class Server {
         log.info("HTTPServer started on {}", server.getAddress());
     }
 
-    public void shutdown() {
-        server.stop(5);
-    }
-
 }

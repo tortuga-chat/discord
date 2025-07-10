@@ -1,7 +1,6 @@
 package chat.tortuga.discord;
 
 import chat.tortuga.discord.http.DownloadFinishedHandler;
-import chat.tortuga.discord.http.DownloadStartedHandler;
 import chat.tortuga.discord.http.RefreshHandler;
 import chat.tortuga.discord.http.Server;
 import chat.tortuga.discord.task.TaskLoader;
@@ -20,7 +19,6 @@ public class Main {
         JellyfinBot.getInstance();
         Server server = new Server(8088);
         server.createContext("/refresh/", new RefreshHandler());
-        server.createContext("/downloadStarted/", new DownloadStartedHandler());
         server.createContext("/downloadFinished/", new DownloadFinishedHandler());
         server.start();
 
