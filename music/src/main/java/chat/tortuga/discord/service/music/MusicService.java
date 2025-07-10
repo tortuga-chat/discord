@@ -1,5 +1,7 @@
 package chat.tortuga.discord.service.music;
 
+import chat.tortuga.discord.config.ConfigLoader;
+import chat.tortuga.discord.config.Music;
 import chat.tortuga.discord.exception.BotException;
 import chat.tortuga.discord.exception.VoiceChannelRequiredException;
 import chat.tortuga.discord.service.music.handler.DefaultAudioLoadResultHandler;
@@ -33,13 +35,20 @@ public class MusicService {
     private static final AudioPlayerManager PLAYER;
     private static final Map<Long, GuildMusicManager> MANAGERS = new ConcurrentHashMap<>();
 
+    private static final Music CONFIG = new ConfigLoader().load(Music.FILE, Music.class);
+    private static final Music.Youtube.Oauth OAUTH = CONFIG.getYoutube().getOauth();
+
     static {
         PLAYER = new DefaultAudioPlayerManager();
-        PLAYER.registerSourceManager(new dev.lavalink.youtube.YoutubeAudioSourceManager(
+        var ytSource = new dev.lavalink.youtube.YoutubeAudioSourceManager(
 //                new Tv(), new TvHtml5Embedded(),
                 new TvHtml5EmbeddedWithThumbnail(),
                 new MusicWithThumbnail(), new WebWithThumbnail(), new MWebWithThumbnail(), new WebEmbeddedWithThumbnail()
-        ));
+        );
+        if (OAUTH.isEnabled()) {
+            ytSource.useOauth2(OAUTH.getToken(), !OAUTH.isInit());
+        }
+        PLAYER.registerSourceManager(ytSource);
         //noinspection deprecation - we're actually excluding the deprecated class here
         AudioSourceManagers.registerRemoteSources(PLAYER, YoutubeAudioSourceManager.class, TwitchStreamAudioSourceManager.class);
         AudioSourceManagers.registerLocalSource(PLAYER);
