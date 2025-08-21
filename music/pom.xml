@@ -42,7 +42,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>v2</artifactId>
-            <version>1.13.4</version>
+            <version>4e1af561a9316893724aa69eeef623863c04e655-SNAPSHOT</version>
         </dependency>
         <!--database-->
         <dependency>
