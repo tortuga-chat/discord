@@ -6,14 +6,17 @@ import chat.tortuga.discord.service.SingleMessageService;
 import chat.tortuga.discord.service.music.MusicService;
 import chat.tortuga.discord.service.music.PlayerMessage;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -107,12 +110,18 @@ public class MusicListener extends EventListener {
 
     protected void handleException(ButtonInteraction interaction, BotException e) {
         log.warn(e.getMessage());
-        interaction.reply(e.getMessage()).queue();
+        interaction.reply(MessageCreateData.fromEmbeds(
+                        new EmbedBuilder().setTitle(e.getMessage()).setColor(Color.yellow).build()))
+                .setEphemeral(true)
+                .queue();
     }
 
     protected void handleException(ButtonInteraction interaction, Exception e) {
         log.error("[{}] Error handling query", Objects.requireNonNull(interaction.getGuild()).getName(), e);
-        interaction.reply(e.getMessage()).queue();
+        interaction.reply(MessageCreateData.fromEmbeds(
+                new EmbedBuilder().setTitle(e.getMessage()).setColor(Color.red).build()))
+                .setEphemeral(true)
+                .queue();
     }
 
     protected void handleException(Guild guild, BotException e) {
