@@ -23,8 +23,9 @@ public class MusicBot extends DiscordBot {
         if (Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("register"))) {
             bot.registerCommands();
             bot.shutdown();
+        } else {
+            TaskLoader.getInstance().start();
         }
-        TaskLoader.getInstance().start();
     }
 
     private MusicBot() {

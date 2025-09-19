@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -84,9 +85,9 @@ public class MusicListener extends EventListener {
                     });
                 }
             } catch (BotException e) {
-                handleException(event.getGuild(), e);
+                handleException(event.getInteraction(), e);
             } catch (Exception e) {
-                handleException(event.getGuild(), e);
+                handleException(event.getInteraction(), e);
             }
         });
     }
@@ -102,6 +103,16 @@ public class MusicListener extends EventListener {
                     .deleteMessageById(event.getMessageIdLong())
                     .queue();
         });
+    }
+
+    protected void handleException(ButtonInteraction interaction, BotException e) {
+        log.warn(e.getMessage());
+        interaction.reply(e.getMessage()).queue();
+    }
+
+    protected void handleException(ButtonInteraction interaction, Exception e) {
+        log.error("[{}] Error handling query", Objects.requireNonNull(interaction.getGuild()).getName(), e);
+        interaction.reply(e.getMessage()).queue();
     }
 
     protected void handleException(Guild guild, BotException e) {
