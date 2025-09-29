@@ -75,7 +75,7 @@ public class GuildPlayer extends AudioEventAdapter {
      * Clears the playlist and stops the player.
      */
     public void stop() {
-        log.info("[{}] Destroying GuildPlayer", guild.getName());
+        log.debug("[{}] Stopping player", guild.getName());
         playlist.clear();
         player.stopTrack();
     }

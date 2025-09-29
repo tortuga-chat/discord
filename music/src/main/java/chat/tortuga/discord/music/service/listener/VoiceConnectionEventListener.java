@@ -19,7 +19,7 @@ public class VoiceConnectionEventListener implements ConnectionListener {
     @Override
     public void onStatusChange(@NotNull ConnectionStatus status) {
         if (!status.shouldReconnect()) {
-            log.info("[{}] Disconnected", guild.getName());
+            log.debug("[{}] Disconnected", guild.getName());
             service.handleDisconnect(guild);
         }
     }
