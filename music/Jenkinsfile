@@ -16,7 +16,6 @@ pipeline {
             when { expression { return params.core } }
             steps {
                 script {
-                    sh 'mvn --version'
                     sh 'mvn -f core clean install'
                 }
             }
@@ -25,7 +24,7 @@ pipeline {
             when { expression { return params.music } }
             steps {
                 script {
-                    sh 'mvn clean package'
+                    sh 'mvn -f music clean package'
                 }
             }
         }
