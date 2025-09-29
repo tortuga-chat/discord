@@ -1,0 +1,46 @@
+discord:
+  intents: message-content, guild-expressions, guild-voice-states, guild-messages, guild-message-reactions
+  update-global-commands: false
+
+music:
+  disconnect-on-idle:
+    idle-for: 10m
+    check-every: 5m
+  youtube:
+    cipher:
+      url: https://cipher.kikkia.dev/api
+    oauth:
+      enabled: true
+      token: ${YOUTUBE_OAUTH_TOKEN}
+    clients:
+      music: true
+      tv: true
+      web: true
+    load-mix: false
+
+  sources:
+    local: true
+    http: false
+    youtube: true
+    twitch: false
+    soundcloud: true
+    nicoaudio: false
+    bandcamp: true
+    vimeo: false
+    getyarn: false
+    yandex: false
+    beampro: false
+
+quarkus:
+  package:
+    jar:
+      type: uber-jar
+      add-runner-suffix: false
+  datasource:
+    jdbc:
+      url: jdbc:h2:file:/opt/tortuga/discord/music/db/h2
+  log:
+    level: INFO
+    category:
+      "chat.tortuga.discord":
+        level: DEBUG

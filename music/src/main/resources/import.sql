@@ -1,0 +1,1 @@
+create table GuildSettings (guildId bigint not null, musicChannelId bigint, primary key (guildId))

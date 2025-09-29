@@ -1,3 +1,0 @@
-discord:
-  token: ${DISCORD_TOKEN}
-channelId: ${JELLYFIN_CHANNEL_ID}

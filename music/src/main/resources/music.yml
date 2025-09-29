@@ -1,4 +1,0 @@
-youtube:
-  oauth:
-    enabled: true
-    token: ${YOUTUBE_OAUTH_TOKEN}
