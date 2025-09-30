@@ -1,11 +1,6 @@
 discord:
   update-global-commands: true
 
-music:
-  youtube:
-    cipher:
-      url: ${YT_CIPHER_URL:https://cipher.kikkia.dev/api}
-
 quarkus:
   log:
     file:

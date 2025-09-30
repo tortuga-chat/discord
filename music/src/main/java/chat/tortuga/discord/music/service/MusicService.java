@@ -79,7 +79,10 @@ public class MusicService {
             YoutubeAudioSourceManager yt = new YoutubeAudioSourceManager(music.youtube().clients().instances());
 
             if (oauth.enabled()) yt.useOauth2(oauth.token().orElse(null), oauth.token().isPresent());
-            cipher.ifPresent(c -> yt.setRemoteCipherManagerUrlPass(c.url(), c.password().orElse(null)));
+            cipher.ifPresent(c -> {
+                yt.setRemoteCipherManagerUrlPass(c.url(), c.password().orElse(null));
+                log.debug("Remote cipher url set to {}", c.url());
+            });
 
             player.registerSourceManager(yt);
         }
