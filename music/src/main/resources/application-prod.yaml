@@ -4,7 +4,7 @@ discord:
 music:
   youtube:
     cipher:
-      url: https://cipher.kikkia.dev/api
+      url: http://localhost:8001
 
 quarkus:
   log:
