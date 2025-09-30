@@ -66,6 +66,10 @@ public class GuildPlayer extends AudioEventAdapter {
         }
     }
 
+    /**
+     * Adds all the tracks to the playlist and play right away if playlist is empty.
+     * @param tracks Tracks to add
+     */
     public void addAll(List<AudioTrack> tracks) {
         playlist.addAll(tracks);
         player.startTrack(playlist.poll(), true);
@@ -109,6 +113,9 @@ public class GuildPlayer extends AudioEventAdapter {
         player.startTrack(playlist.poll(), false);
     }
 
+    /**
+     * Start playing the previous track, stopping the current one.
+     */
     public void previousTrack() {
         player.startTrack(previousTrack.makeClone(), false);
     }
@@ -183,7 +190,6 @@ public class GuildPlayer extends AudioEventAdapter {
         log.error("[{}] Error playing {} ({}@{})", guild.getName(), track.getInfo().title,
                 track.getIdentifier(), track.getSourceManager().getSourceName(), exception);
     }
-
 
     public void updatePlayerMessage() {
         final PlayerMessageInfo info = player.getPlayingTrack().getUserData(PlayerMessageInfo.class);

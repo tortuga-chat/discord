@@ -92,7 +92,7 @@ public class MusicService {
     void disconnectOnIdle() {
         getGuildPlayers().stream()
                 .filter(p -> p.getLastEndOfPlaylist() != null)
-                .filter(p -> p.getLastEndOfPlaylist().plus(music.disconnectOnIdle().idleFor()).isBefore(Instant.now()))
+                .filter(p -> Instant.now().isAfter(p.getLastEndOfPlaylist().plus(music.disconnectOnIdle().idleFor())))
                 .forEach(p -> disconnectFromVoiceChannel(p.getGuild()));
     }
 
