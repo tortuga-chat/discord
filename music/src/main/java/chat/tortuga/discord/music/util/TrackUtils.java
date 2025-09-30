@@ -18,6 +18,7 @@ public class TrackUtils {
     public final String EMOJI_LIVE = "🔴";
     public final String EMOJI_LIST = "📋";
     public final String EMOJI_LEAF ="🍂";
+    public final String EMOJI_STARS = "✨";
     public final String EMOJI_TORTUGA = "<:tortuga:1350930965714698311>";
     public final String[] EMOJIS_DESERT = {"🌵", "🏝️", "🏜️"};
     public final Map<String, String> EMOJIS_AUDIO_SOURCES = Map.of(

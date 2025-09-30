@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Slf4j
 @ApplicationScoped
 @RequiredArgsConstructor
-public class MessageEventListener extends ListenerAdapter {
+public class MessageListener extends ListenerAdapter {
 
     private final MusicService service;
     private final GuildSettingsRepository settingsRepository;

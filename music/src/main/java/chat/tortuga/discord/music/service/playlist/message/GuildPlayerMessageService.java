@@ -4,9 +4,11 @@ import chat.tortuga.discord.core.DiscordBot;
 import chat.tortuga.discord.core.OnBotReady;
 import chat.tortuga.discord.music.persistence.model.GuildSettings;
 import chat.tortuga.discord.music.persistence.repository.GuildSettingsRepository;
+import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 
 import java.util.Optional;
@@ -18,7 +20,6 @@ public class GuildPlayerMessageService implements OnBotReady {
 
     private final DiscordBot bot;
     private final GuildSettingsRepository repository;
-
 
     @Override
     public void accept(ReadyEvent readyEvent) {
@@ -32,16 +33,17 @@ public class GuildPlayerMessageService implements OnBotReady {
             Optional.ofNullable(bot.getJda().getGuildById(settings.getGuildId()))
                     // maps to text channel
                     .map(g -> g.getTextChannelById(settings.getMusicChannelId()))
-                    // if successfully retrieved text channel, retrieve message history from the beginning
-                    .ifPresent(c -> c.getHistoryFromBeginning(100)
-                            // delete retrieved message history from channel
-                            .queue(h -> {
-                                if (!h.getRetrievedHistory().isEmpty())
-                                    c.deleteMessages(h.getRetrievedHistory())
-                                        // logs success
-                                        .queue(s -> log.debug("[{}] Cleaned dedicated channel {}", c.getGuild().getName(), c.getName()));
-                            }));
+                    .ifPresent(this::cleanUp);
         }
+    }
+
+    public void cleanUp(@Nonnull final TextChannel channel) {
+        channel.getHistoryFromBeginning(100).queue(h -> {
+            if (!h.getRetrievedHistory().isEmpty())
+                channel.deleteMessages(h.getRetrievedHistory())
+                        // logs success
+                        .queue(s -> log.debug("[{}] Cleaned channel {}", channel.getGuild().getName(), channel.getName()));
+        });
     }
 
 }

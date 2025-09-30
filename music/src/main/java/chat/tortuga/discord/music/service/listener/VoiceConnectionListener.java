@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 @Slf4j
 @RequiredArgsConstructor
 @SuppressWarnings("ClassCanBeRecord")
-public class VoiceConnectionEventListener implements ConnectionListener {
+public class VoiceConnectionListener implements ConnectionListener {
 
     private final MusicService service;
     private final Guild guild;

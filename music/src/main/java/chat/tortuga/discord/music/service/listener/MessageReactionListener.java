@@ -12,11 +12,10 @@ import org.jetbrains.annotations.NotNull;
 @Slf4j
 @ApplicationScoped
 @RequiredArgsConstructor
-public class MessageReactionEventListener extends ListenerAdapter {
+public class MessageReactionListener extends ListenerAdapter {
 
     private final MusicService service;
     private final GuildSettingsRepository repository;
-
 
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {

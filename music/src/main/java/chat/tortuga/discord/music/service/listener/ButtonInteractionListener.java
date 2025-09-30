@@ -23,7 +23,7 @@ import java.util.Objects;
 @Slf4j
 @ApplicationScoped
 @RequiredArgsConstructor
-public class ButtonInteractionEventListener extends ListenerAdapter {
+public class ButtonInteractionListener extends ListenerAdapter {
 
     private final MusicService service;
 

@@ -4,7 +4,7 @@ import chat.tortuga.discord.core.exception.BotException;
 import chat.tortuga.discord.music.config.Music;
 import chat.tortuga.discord.music.exception.SameVoiceChannelRequiredException;
 import chat.tortuga.discord.music.exception.VoiceChannelRequiredException;
-import chat.tortuga.discord.music.service.listener.VoiceConnectionEventListener;
+import chat.tortuga.discord.music.service.listener.VoiceConnectionListener;
 import chat.tortuga.discord.music.service.playlist.GuildPlayer;
 import chat.tortuga.discord.music.service.playlist.message.PlayerMessage;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -223,7 +223,7 @@ public class MusicService {
         final AudioManager audioManager = channel.getGuild().getAudioManager();
         if (audioManager.isConnected()) return;
         audioManager.openAudioConnection(channel);
-        audioManager.setConnectionListener(new VoiceConnectionEventListener(this, channel.getGuild()));
+        audioManager.setConnectionListener(new VoiceConnectionListener(this, channel.getGuild()));
         log.info("[{}] Connected to {}", channel.getGuild().getName(), channel.getName());
     }
 

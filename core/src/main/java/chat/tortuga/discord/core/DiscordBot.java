@@ -28,8 +28,6 @@ public class DiscordBot {
 
     @Startup(LIBRARY_AFTER)
     void connect() {
-        log.debug("Starting discord bot with listeners: {}", listeners.stream().map(l -> l.getClass().getName()).toList());
-
         jda = JDABuilder
                 .createDefault(discord.token())
                 .enableIntents(discord.intents().orElse(GatewayIntent.getIntents(GatewayIntent.DEFAULT)))

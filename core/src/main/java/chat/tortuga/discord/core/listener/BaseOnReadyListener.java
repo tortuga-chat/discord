@@ -1,25 +1,23 @@
-package chat.tortuga.discord.core;
+package chat.tortuga.discord.core.listener;
 
 import chat.tortuga.discord.core.command.SlashCommand;
 import chat.tortuga.discord.core.config.Discord;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 @Slf4j
-@ApplicationScoped
-@RequiredArgsConstructor
-public class EventListener extends ListenerAdapter {
+@NoArgsConstructor
+@AllArgsConstructor
+public class BaseOnReadyListener extends ListenerAdapter {
 
-    private final Discord discord;
-    private final Instance<SlashCommand> slashCommands;
-    private final Instance<OnBotReady> onBotReady;
+    private Discord discord;
+    private Instance<SlashCommand> slashCommands;
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -35,14 +33,6 @@ public class EventListener extends ListenerAdapter {
                             .toList())
                     .queue();
         }
-        onBotReady.forEach(i -> i.accept(event));
     }
 
-    @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        slashCommands.stream()
-                .filter(c -> c.getName().equals(event.getName()))
-                .findFirst()
-                .ifPresentOrElse(c -> c.accept(event), () -> log.error("Slash command {} not found...", event.getName()));
-    }
 }
