@@ -50,7 +50,7 @@ public class Setup extends SlashCommand {
                 new EmbedBuilder()
                         .setColor(Color.GREEN)
                         .setTitle("Done!")
-                        .setDescription(String.format("%s was set as the dedicated channel ",
+                        .setDescription(String.format("%s was set as the dedicated channel",
                                 Objects.requireNonNull(guild.getTextChannelById(settings.getMusicChannelId())).getAsMention()))
                         .build())
                 .setEphemeral(true)

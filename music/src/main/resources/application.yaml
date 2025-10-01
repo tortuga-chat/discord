@@ -16,7 +16,6 @@ music:
       music: true
       tv: true
       web: true
-    load-mix: false
 
   sources:
     local: true
@@ -44,3 +43,9 @@ quarkus:
     category:
       "chat.tortuga.discord":
         level: DEBUG
+
+http:
+  socket:
+    timeout: 10000
+  connection:
+    timeout: 10000

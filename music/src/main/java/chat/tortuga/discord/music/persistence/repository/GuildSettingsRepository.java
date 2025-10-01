@@ -38,7 +38,7 @@ public class GuildSettingsRepository {
     }
 
     public void save(@Nonnull GuildSettings guildSettings) {
-        log.debug("Saving settings: {}", guildSettings);
+        log.debug("Saving GuildSettings: {}", guildSettings);
         entityManager.merge(guildSettings);
     }
 

@@ -1,6 +1,6 @@
 package chat.tortuga.discord.music.service;
 
-import chat.tortuga.discord.music.config.Music;
+import chat.tortuga.discord.music.persistence.model.UserSettings;
 import chat.tortuga.discord.music.service.playlist.GuildPlayer;
 import chat.tortuga.discord.music.service.playlist.message.PlayerMessageInfo;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -19,15 +19,15 @@ public class TrackLoadResultHandler implements AudioLoadResultHandler {
     protected final Guild guild;
     protected final Member member;
     protected final GuildPlayer manager;
-    protected final Music config;
-    protected final boolean isMix;
+    private final UserSettings userSettings;
+    protected final boolean playlistFromTrack;
 
-    public TrackLoadResultHandler(GuildPlayer manager, Member member, Music config, boolean isMix) {
+    public TrackLoadResultHandler(GuildPlayer manager, Member member, UserSettings userSettings, boolean playlistFromTrack) {
         this.guild = member.getGuild();
         this.member = member;
         this.manager = manager;
-        this.config = config;
-        this.isMix = isMix;
+        this.userSettings = userSettings;
+        this.playlistFromTrack = playlistFromTrack;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TrackLoadResultHandler implements AudioLoadResultHandler {
         }
         List<AudioTrack> tracks = playlist.getTracks();
         if (playlist.getSelectedTrack() != null) {
-            if (isMix && !config.youtube().loadMix()) {
+            if (playlistFromTrack && !userSettings.shouldLoadPlaylistFromTrack()) {
                 manager.add(attachUserData(playlist.getSelectedTrack()));
                 return;
             }

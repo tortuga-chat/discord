@@ -35,7 +35,6 @@ public interface Music {
         Oauth oauth();
         Optional<Cipher> cipher();
         Clients clients();
-        boolean loadMix();
 
         interface Oauth {
             boolean enabled();

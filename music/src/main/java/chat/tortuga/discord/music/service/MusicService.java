@@ -4,6 +4,7 @@ import chat.tortuga.discord.core.exception.BotException;
 import chat.tortuga.discord.music.config.Music;
 import chat.tortuga.discord.music.exception.SameVoiceChannelRequiredException;
 import chat.tortuga.discord.music.exception.VoiceChannelRequiredException;
+import chat.tortuga.discord.music.persistence.repository.UserSettingsRepository;
 import chat.tortuga.discord.music.service.listener.VoiceConnectionListener;
 import chat.tortuga.discord.music.service.playlist.GuildPlayer;
 import chat.tortuga.discord.music.service.playlist.message.PlayerMessage;
@@ -50,11 +51,12 @@ public class MusicService {
 
     private static final String CACHE_MANAGERS = "managers";
 
+    private final Music music;
+    private final UserSettingsRepository userSettingsRepository;
+    private AudioPlayerManager player;
+
     @CacheName(CACHE_MANAGERS)
     Cache cache;
-
-    private final Music music;
-    private AudioPlayerManager player;
 
     @PostConstruct
     void init() {
@@ -105,7 +107,8 @@ public class MusicService {
             connectToVoiceChannel(retrieveMemberVoiceChannel(member));
         }
         GuildPlayer manager = getGuildPlayer(guild, channelId);
-        player.loadItemOrdered(manager, query, new TrackLoadResultHandler(manager, member, music, query.contains("&start_radio=")));
+        player.loadItemOrdered(manager, query, new TrackLoadResultHandler(manager, member,
+                userSettingsRepository.findOrDefault(member.getIdLong()), query.contains("&start_radio=")));
     }
 
     public void handleStop(Guild guild, Member member) throws BotException {
