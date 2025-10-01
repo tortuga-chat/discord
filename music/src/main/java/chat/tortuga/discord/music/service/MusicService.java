@@ -123,10 +123,7 @@ public class MusicService {
     public void handleStop(Guild guild, Member member) throws BotException {
         validateSameVoiceChannel(member);
         getGuildPlayerIfExists(guild)
-                .ifPresent(p -> {
-                    p.stop();
-                    destroyGuildPlayer(p);
-                });
+                .ifPresent(GuildPlayer::stop);
     }
 
     public void handleSkip(Guild guild, Member member) throws BotException {
