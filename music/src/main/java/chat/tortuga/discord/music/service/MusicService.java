@@ -1,7 +1,6 @@
 package chat.tortuga.discord.music.service;
 
 import chat.tortuga.discord.core.exception.BotException;
-import chat.tortuga.discord.music.command.SoundCloud;
 import chat.tortuga.discord.music.config.Music;
 import chat.tortuga.discord.music.exception.SameVoiceChannelRequiredException;
 import chat.tortuga.discord.music.exception.VoiceChannelRequiredException;
@@ -52,6 +51,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class MusicService {
 
+    private static final String SEARCH_REGEX = "[a-z]+search:";
     private static final String CACHE_MANAGERS = "managers";
 
     private final Music music;
@@ -65,7 +65,7 @@ public class MusicService {
     void init() {
         player = new DefaultAudioPlayerManager();
         if (music.sources().soundcloud()) player.registerSourceManager(SoundCloudAudioSourceManager.createDefault());
-        if (music.sources().bandcamp())   player.registerSourceManager(new BandcampAudioSourceManager(true));
+        if (music.sources().bandcamp())   player.registerSourceManager(new BandcampAudioSourceManager());
         if (music.sources().nicoaudio())  player.registerSourceManager(new NicoAudioSourceManager());
         if (music.sources().vimeo())      player.registerSourceManager(new VimeoAudioSourceManager());
         if (music.sources().yandex())     player.registerSourceManager(new YandexMusicAudioSourceManager());
@@ -112,7 +112,7 @@ public class MusicService {
         try {
             new URI(query);
         } catch (URISyntaxException e) {
-            if (!query.startsWith(SoundCloud.SEARCH_PREFIX))
+            if (!query.matches(SEARCH_REGEX))
                 query = YoutubeAudioSourceManager.SEARCH_PREFIX.concat(query);
         }
         GuildPlayer manager = getGuildPlayer(guild, channelId);
