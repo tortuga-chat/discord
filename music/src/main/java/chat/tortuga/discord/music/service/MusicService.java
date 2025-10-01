@@ -38,6 +38,8 @@ import net.dv8tion.jda.api.entities.channel.unions.AudioChannelUnion;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -105,6 +107,11 @@ public class MusicService {
         }
         else {
             connectToVoiceChannel(retrieveMemberVoiceChannel(member));
+        }
+        try {
+            new URI(query);
+        } catch (URISyntaxException e) {
+            query = YoutubeAudioSourceManager.SEARCH_PREFIX.concat(query);
         }
         GuildPlayer manager = getGuildPlayer(guild, channelId);
         player.loadItemOrdered(manager, query, new TrackLoadResultHandler(manager, member,
