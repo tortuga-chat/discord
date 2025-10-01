@@ -51,7 +51,7 @@ import java.util.concurrent.ExecutionException;
 @RequiredArgsConstructor
 public class MusicService {
 
-    private static final String SEARCH_REGEX = "[a-z]+search:";
+    private static final String SEARCH_REGEX = "[a-z]+search:.*";
     private static final String CACHE_MANAGERS = "managers";
 
     private final Music music;
