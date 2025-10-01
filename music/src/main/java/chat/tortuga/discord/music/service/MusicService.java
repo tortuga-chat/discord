@@ -1,6 +1,7 @@
 package chat.tortuga.discord.music.service;
 
 import chat.tortuga.discord.core.exception.BotException;
+import chat.tortuga.discord.music.command.SoundCloud;
 import chat.tortuga.discord.music.config.Music;
 import chat.tortuga.discord.music.exception.SameVoiceChannelRequiredException;
 import chat.tortuga.discord.music.exception.VoiceChannelRequiredException;
@@ -111,7 +112,8 @@ public class MusicService {
         try {
             new URI(query);
         } catch (URISyntaxException e) {
-            query = YoutubeAudioSourceManager.SEARCH_PREFIX.concat(query);
+            if (!query.startsWith(SoundCloud.SEARCH_PREFIX))
+                query = YoutubeAudioSourceManager.SEARCH_PREFIX.concat(query);
         }
         GuildPlayer manager = getGuildPlayer(guild, channelId);
         player.loadItemOrdered(manager, query, new TrackLoadResultHandler(manager, member,

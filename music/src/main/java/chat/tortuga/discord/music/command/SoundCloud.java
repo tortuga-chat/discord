@@ -7,7 +7,7 @@ import jakarta.enterprise.context.Dependent;
 @Dependent
 public class SoundCloud extends AbstractSearchCommand {
 
-    private static final String SEARCH_PREFIX = "scsearch:";
+    public static final String SEARCH_PREFIX = "scsearch:";
     private final Music music;
 
     public SoundCloud(MusicService service, Music music) {
