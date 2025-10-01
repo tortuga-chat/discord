@@ -2,9 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>chat.tortuga</groupId>
-    <artifactId>discord-music</artifactId>
+    <artifactId>jellyfin</artifactId>
     <version>2.0.0-SNAPSHOT</version>
 
     <properties>
@@ -31,60 +30,42 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>arbjergDev-releases</id>
-            <name>Lavalink Repository</name>
-            <url>https://maven.lavalink.dev/releases</url>
-        </repository>
-        <repository>
-            <id>arbjergDev-snapshots</id>
-            <name>Lavalink Snapshot Repository</name>
-            <url>https://maven.lavalink.dev/snapshots</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-hibernate-orm</artifactId>
+            <artifactId>quarkus-rest</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-h2</artifactId>
+            <artifactId>quarkus-rest-client-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-cache</artifactId>
+            <artifactId>quarkus-rest-client</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
+            <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>chat.tortuga</groupId>
             <artifactId>discord-core</artifactId>
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>dev.arbjerg</groupId>
-            <artifactId>lavaplayer</artifactId>
-            <version>2.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.lavalink.youtube</groupId>
-            <artifactId>v2</artifactId>
-            <version>ff19b6f1751262ecba7b81fcf391b961008962d1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>tortuga-discord-music</finalName>
+        <finalName>tortuga-discord-jellyfin</finalName>
         <plugins>
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
@@ -131,6 +112,7 @@
                 </property>
             </activation>
             <properties>
+                <quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
                 <skipITs>false</skipITs>
                 <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
