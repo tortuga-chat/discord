@@ -20,6 +20,7 @@ import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceM
 import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.yamusic.YandexMusicAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.tools.io.HttpClientTools;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import io.quarkus.cache.Cache;
 import io.quarkus.cache.CacheName;
@@ -60,6 +61,10 @@ public class MusicService {
 
     @CacheName(CACHE_MANAGERS)
     Cache cache;
+
+    static {
+        HttpClientTools.setDefaultRequestTimeout(10000, 10000, 10000);
+    }
 
     @PostConstruct
     void init() {
