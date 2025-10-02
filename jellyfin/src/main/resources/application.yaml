@@ -22,3 +22,5 @@ quarkus:
       "chat.tortuga.discord":
         # noinspection QsYaml
         level: DEBUG
+  http:
+    port: 8090
