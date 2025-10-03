@@ -74,7 +74,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>v2</artifactId>
-            <version>ff19b6f1751262ecba7b81fcf391b961008962d1-SNAPSHOT</version>
+            <version>1.14.0</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
