@@ -22,6 +22,7 @@ import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.yamusic.YandexMusicAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.io.HttpClientTools;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import dev.lavalink.youtube.YoutubeSourceOptions;
 import io.quarkus.cache.Cache;
 import io.quarkus.cache.CacheName;
 import io.quarkus.cache.CaffeineCache;
@@ -86,14 +87,12 @@ public class MusicService {
         if (music.sources().youtube()) {
             final Music.Youtube.Oauth oauth = music.youtube().oauth();
             final Optional<Music.Youtube.Cipher> cipher = music.youtube().cipher();
-            YoutubeAudioSourceManager yt = new YoutubeAudioSourceManager(music.youtube().clients().instances());
+            final YoutubeSourceOptions options = new YoutubeSourceOptions();
+
+            cipher.ifPresent(c -> options.setRemoteCipherUrl(c.url(), c.password().orElse(null)));
+            YoutubeAudioSourceManager yt = new YoutubeAudioSourceManager(options, music.youtube().clients().instances());
 
             if (oauth.enabled()) yt.useOauth2(oauth.token().orElse(null), oauth.token().isPresent());
-            cipher.ifPresent(c -> {
-                yt.setRemoteCipherManagerUrlPass(c.url(), c.password().orElse(null));
-                log.debug("Remote cipher url set to {}", c.url());
-            });
-
             player.registerSourceManager(yt);
         }
     }
