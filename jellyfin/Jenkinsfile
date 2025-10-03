@@ -8,17 +8,10 @@ pipeline {
         TORTUGA_DISCORD_JELLYFIN_HOST = credentials('tortuga-discord-jellyfin-host')
     }
     stages {
-        stage('build core') {
+        stage('build') {
             steps {
                 script {
-                    sh 'mvn -f core clean install'
-                }
-            }
-        }
-        stage('build jellyfin') {
-            steps {
-                script {
-                    sh 'mvn -f jellyfin clean package'
+                    sh 'mvn -f core clean install -pl !music'
                 }
             }
         }
