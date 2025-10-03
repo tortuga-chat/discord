@@ -4,16 +4,11 @@ pipeline {
         maven 'default'
         jdk '21'
     }
-    parameters {
-        booleanParam(name: 'core', defaultValue: true, description: 'Build tortuga-discord-core')
-        booleanParam(name: 'music', defaultValue: true, description: 'Deploy tortuga-discord-music')
-    }
     environment {
         TORTUGA_DISCORD_MUSIC_HOST = credentials('tortuga-discord-music-host')
     }
     stages {
         stage('build core') {
-            when { expression { return params.core } }
             steps {
                 script {
                     sh 'mvn -f core clean install'
@@ -21,7 +16,6 @@ pipeline {
             }
         }
         stage('build music') {
-            when { expression { return params.music } }
             steps {
                 script {
                     sh 'mvn -f music clean package'
@@ -29,10 +23,9 @@ pipeline {
             }
         }
         stage('deploy music') {
-            when { expression { return params.music } }
             steps {
                 script {
-                    deploy('music', env.TORTUGA_DISCORD_MUSIC_HOST)
+                    deploy('music', (String) env.TORTUGA_DISCORD_MUSIC_HOST)
                 }
             }
         }

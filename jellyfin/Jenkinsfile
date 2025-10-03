@@ -4,16 +4,11 @@ pipeline {
         maven 'default'
         jdk '21'
     }
-    parameters {
-        booleanParam(name: 'core', defaultValue: true, description: 'Build tortuga-discord-core')
-        booleanParam(name: 'jellyfin', defaultValue: true, description: 'Deploy tortuga-discord-jellyfin')
-    }
     environment {
         TORTUGA_DISCORD_JELLYFIN_HOST = credentials('tortuga-discord-jellyfin-host')
     }
     stages {
         stage('build core') {
-            when { expression { return params.core } }
             steps {
                 script {
                     sh 'mvn -f core clean install'
@@ -21,7 +16,6 @@ pipeline {
             }
         }
         stage('build jellyfin') {
-            when { expression { return params.jellyfin } }
             steps {
                 script {
                     sh 'mvn -f jellyfin clean package'
@@ -29,10 +23,9 @@ pipeline {
             }
         }
         stage('deploy jellyfin') {
-            when { expression { return params.jellyfin } }
             steps {
                 script {
-                    deploy('jellyfin', env.TORTUGA_DISCORD_JELLYFIN_HOST)
+                    deploy('jellyfin', (String) env.TORTUGA_DISCORD_JELLYFIN_HOST)
                 }
             }
         }
