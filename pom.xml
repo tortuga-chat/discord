@@ -8,6 +8,12 @@
     <version>2.0.0</version>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>core</module>
+        <module>jellyfin</module>
+        <module>music</module>
+    </modules>
+
     <properties>
         <compiler-plugin.version>3.14.0</compiler-plugin.version>
         <maven.compiler.release>21</maven.compiler.release>
