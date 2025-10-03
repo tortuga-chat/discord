@@ -1,0 +1,26 @@
+discord:
+  intents: message-content, guild-expressions, guild-messages, guild-message-reactions
+  update-global-commands: false
+
+jellyfin:
+  auth-token: ${JELLYFIN_AUTH_TOKEN}
+  channel-id: ${JELLYFIN_CHANNEL_ID}
+  footer-icon-url: https://img.icons8.com/?size=100&id=5b4t8ZwtA5p7&format=png&color=000000
+  emoji: "<:jellyfin:1422753550391312415>"
+
+quarkus:
+  rest-client:
+    jellyfin:
+      url: ${JELLYFIN_BASE_URL}
+  package:
+    jar:
+      type: uber-jar
+      add-runner-suffix: false
+  log:
+    level: INFO
+    category:
+      "chat.tortuga.discord":
+        # noinspection QsYaml
+        level: DEBUG
+  http:
+    port: 8090

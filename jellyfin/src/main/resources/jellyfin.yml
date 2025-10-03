@@ -1,3 +1,0 @@
-url: ${JELLYFIN_URL}
-timeout: 30000
-authToken:  ${JELLYFIN_AUTH_TOKEN}

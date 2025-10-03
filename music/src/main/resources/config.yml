@@ -1,6 +1,0 @@
-discord:
-  token: ${DISCORD_TOKEN}
-
-#task:
-#  disabled:
-#    - "DisconnectOnIdleTask"
