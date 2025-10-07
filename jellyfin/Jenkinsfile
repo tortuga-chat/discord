@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
-                    sh 'mvn clean install -pl !music'
+                    sh 'mvn clean package -pl !music'
                 }
             }
         }
