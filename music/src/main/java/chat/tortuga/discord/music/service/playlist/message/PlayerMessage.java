@@ -4,8 +4,9 @@ import chat.tortuga.discord.music.util.TrackUtils;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -13,8 +14,8 @@ import java.awt.*;
 import java.util.Optional;
 
 import static chat.tortuga.discord.music.util.TrackUtils.*;
-import static net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle.PRIMARY;
-import static net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle.SUCCESS;
+import static net.dv8tion.jda.api.components.buttons.ButtonStyle.PRIMARY;
+import static net.dv8tion.jda.api.components.buttons.ButtonStyle.SUCCESS;
 
 @Slf4j
 @UtilityClass
@@ -30,14 +31,14 @@ public class PlayerMessage {
     public MessageCreateData from(final PlayerMessageInfo info, boolean paused, boolean looping, boolean loopingPlaylist) {
         return new MessageCreateBuilder()
                 .addEmbeds(embedFrom(info, looping).build())
-                .addActionRow(
-                        getPrevButton(),
-                        getPauseButton(paused),
-                        getSkipButton())
-                .addActionRow(
-                        getStopButton(),
-                        getLoopButton(looping),
-                        getLoopPlaylistButton(loopingPlaylist))
+                .addComponents(
+                        ActionRow.of(getPrevButton(),
+                                    getPauseButton(paused),
+                                    getSkipButton()),
+                        ActionRow.of(
+                                    getStopButton(),
+                                    getLoopButton(looping),
+                                    getLoopPlaylistButton(loopingPlaylist)))
                 .build();
     }
 
