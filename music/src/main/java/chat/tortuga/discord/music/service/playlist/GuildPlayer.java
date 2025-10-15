@@ -87,10 +87,10 @@ public class GuildPlayer extends AudioEventAdapter {
      */
     public void addAll(List<AudioTrack> tracks) {
         playlist.addAll(tracks);
-        if (player.getPlayingTrack() != null) {
-            player.startTrack(playlist.poll(), false);
+        if (player.getPlayingTrack() == null)
+            player.startTrack(playlist.poll(), true);
+        else
             updatePlaylistMessage();
-        }
     }
 
     public void addAsNext(AudioTrack track) {
@@ -112,10 +112,10 @@ public class GuildPlayer extends AudioEventAdapter {
         newPlaylist.addAll(playlist);
         playlist.clear();
         playlist.addAll(newPlaylist);
-        if (player.getPlayingTrack() != null) {
-            player.startTrack(playlist.poll(), false);
+        if (player.getPlayingTrack() == null)
+            player.startTrack(playlist.poll(), true);
+        else
             updatePlaylistMessage();
-        }
     }
 
     /**
