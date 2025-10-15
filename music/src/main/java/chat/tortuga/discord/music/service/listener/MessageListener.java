@@ -36,7 +36,7 @@ public class MessageListener extends ListenerAdapter {
         final String query = event.getMessage().getContentStripped();
 
         try {
-            service.handleUserQuery(guild, event.getChannel().getIdLong(), event.getMember(), query);
+            service.handleUserQuery(guild, event.getChannel().getIdLong(), event.getMember(), query, false);
         } catch (BotException e) {
             log.warn("[{}] {}", guildName, e.getMessage());
         } catch (Exception e) {

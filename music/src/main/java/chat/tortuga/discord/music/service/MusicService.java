@@ -106,7 +106,7 @@ public class MusicService {
     }
 
     // region player commands
-    public void handleUserQuery(Guild guild, Long channelId, Member member, String query) throws BotException {
+    public void handleUserQuery(Guild guild, Long channelId, Member member, String query, boolean asNext) throws BotException {
         if (guild.getAudioManager().isConnected()) {
             validateSameVoiceChannel(member);
         }
@@ -121,7 +121,7 @@ public class MusicService {
         }
         GuildPlayer manager = getGuildPlayer(guild, channelId);
         player.loadItemOrdered(manager, query, new TrackLoadResultHandler(manager, member,
-                userSettingsRepository.findOrDefault(member.getIdLong()), query.contains("&start_radio=")));
+                userSettingsRepository.findOrDefault(member.getIdLong()), asNext, query.contains("&start_radio=")));
     }
 
     public void handleStop(Guild guild, Member member) throws BotException {

@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
@@ -53,6 +54,20 @@ public class GuildPlayer extends AudioEventAdapter {
         guild.getAudioManager().setSendingHandler(new AudioPlayerSendHandler(player));
     }
 
+    public void add(AudioTrack track, boolean asNext) {
+        if (asNext)
+            addAsNext(track);
+        else
+            add(track);
+    }
+
+    public void addAll(List<AudioTrack> tracks, boolean asNext) {
+        if (asNext)
+            addAllAsNext(tracks);
+        else
+            addAll(tracks);
+    }
+
     /**
      * Add the next track to the playlist or play right away if playlist is empty.
      *
@@ -72,6 +87,24 @@ public class GuildPlayer extends AudioEventAdapter {
      */
     public void addAll(List<AudioTrack> tracks) {
         playlist.addAll(tracks);
+        player.startTrack(playlist.poll(), true);
+    }
+
+    public void addAsNext(AudioTrack track) {
+        final List<AudioTrack> newPlaylist = new ArrayList<>();
+        newPlaylist.add(track);
+        newPlaylist.addAll(playlist);
+        playlist.clear();
+        playlist.addAll(newPlaylist);
+        player.startTrack(playlist.poll(), true);
+    }
+
+    public void addAllAsNext(List<AudioTrack> tracks) {
+        final List<AudioTrack> newPlaylist = new ArrayList<>();
+        newPlaylist.addAll(tracks);
+        newPlaylist.addAll(playlist);
+        playlist.clear();
+        playlist.addAll(newPlaylist);
         player.startTrack(playlist.poll(), true);
     }
 

@@ -19,37 +19,39 @@ public class TrackLoadResultHandler implements AudioLoadResultHandler {
     protected final Guild guild;
     protected final Member member;
     protected final GuildPlayer manager;
-    private final UserSettings userSettings;
+    protected final UserSettings userSettings;
+    protected final boolean asNext;
     protected final boolean playlistFromTrack;
 
-    public TrackLoadResultHandler(GuildPlayer manager, Member member, UserSettings userSettings, boolean playlistFromTrack) {
+    public TrackLoadResultHandler(GuildPlayer manager, Member member, UserSettings userSettings, boolean asNext, boolean playlistFromTrack) {
         this.guild = member.getGuild();
         this.member = member;
         this.manager = manager;
         this.userSettings = userSettings;
+        this.asNext = asNext;
         this.playlistFromTrack = playlistFromTrack;
     }
 
     @Override
     public void trackLoaded(AudioTrack track) {
-        manager.add(attachUserData(track));
+        manager.add(attachUserData(track), asNext);
     }
 
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         if (playlist.isSearchResult()) {
-            manager.add(attachUserData(playlist.getTracks().getFirst()));
+            manager.add(attachUserData(playlist.getTracks().getFirst()), asNext);
             return;
         }
         List<AudioTrack> tracks = playlist.getTracks();
         if (playlist.getSelectedTrack() != null) {
             if (playlistFromTrack && !userSettings.shouldLoadPlaylistFromTrack()) {
-                manager.add(attachUserData(playlist.getSelectedTrack()));
+                manager.add(attachUserData(playlist.getSelectedTrack()), asNext);
                 return;
             }
             tracks = tracks.subList(tracks.indexOf(playlist.getSelectedTrack()), tracks.size());
         }
-        manager.addAll(tracks.stream().map(this::attachUserData).toList());
+        manager.addAll(tracks.stream().map(this::attachUserData).toList(), asNext);
     }
 
     @Override
