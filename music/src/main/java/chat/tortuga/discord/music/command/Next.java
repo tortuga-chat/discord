@@ -32,6 +32,7 @@ public class Next extends SlashCommand {
                 .orElseThrow(() -> new BotException("Missing option " + OPTION_QUERY));
 
         service.handleUserQuery(event.getGuild(), event.getChannelIdLong(), event.getMember(), query, true);
+        event.reply("Loaded!").setEphemeral(true).queue();
     }
 
     @Override
